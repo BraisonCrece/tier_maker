@@ -5,6 +5,8 @@ const log = element => console.log(element)
 const imageInput = $("#image-input")
 const itemsSection = $("#selector-items")
 const resetButton = $("#reset")
+const headerColumn = $("#header-column")
+const tierBody = $(".rows")
 
 let draggedElement = null
 let sourceContainer = null
@@ -12,6 +14,8 @@ let sourceContainer = null
 const rows = $$(".tier .row")
 
 resetButton.addEventListener("click", reset)
+
+tierBody.addEventListener("scroll", applyScrolledShadow)
 
 imageInput.addEventListener("change", e => {
   addImagesFromInput(e.target)
@@ -29,6 +33,32 @@ itemsSection.addEventListener("dragleave", handleDragLeave)
 
 itemsSection.addEventListener("drop", handleDropFromDesktop)
 itemsSection.addEventListener("dragover", handleDragOverFromDesktop)
+
+function setRowsWidth(row) {
+  const numberOfImages = row.children.length
+  const width = `${numberOfImages * 50}px`
+  rows.forEach(row => {
+    row.style.width = width
+  })
+}
+
+function srollToRight(element) {
+  element.scrollLeft = element.scrollWidth
+}
+
+function applyScrolledShadow() {
+  if (tierBody.scrollLeft > 0) {
+    headerColumn.classList.add("floating-shadow-left")
+    tierBody.classList.remove("floating-shadow-right")
+  } else {
+    headerColumn.classList.remove("floating-shadow-left")
+    tierBody.classList.add("floating-shadow-right")
+  }
+}
+
+function hasHorizontalOverflow(element) {
+  return element.scrollWidth > element.clientWidth
+}
 
 function reset() {
   const items = $$(".tier .item-image")
@@ -97,6 +127,13 @@ function handleDrop(e) {
   sourceContainer.removeChild(draggedElement)
   currentTarget.classList.remove("drag-over")
   removePreviewElemet(currentTarget)
+
+  if (currentTarget.children.length > 7 && currentTarget !== itemsSection) {
+    srollToRight(tierBody)
+    setRowsWidth(currentTarget)
+  } else {
+    tierBody.scrollLeft = 0
+  }
 }
 
 function handleDragOver(e) {

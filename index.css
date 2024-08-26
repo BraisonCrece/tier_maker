@@ -12,7 +12,7 @@ button {
   cursor: pointer;
 }
 
-/* CSS Variables */
+/* Variables */
 :root {
   --s: #ff7f80;
   --a: #ffbf80;
@@ -49,16 +49,28 @@ body {
 .tier {
   border: 1px solid #444;
   display: flex;
-  flex-direction: column;
   background: #222;
 }
 
-.row {
+#header-column {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.row {
+  display: inline-flex;
   border-bottom: 1px solid #444;
   transition: background 0.1s ease;
-  overflow: scroll;
+  height: calc(300px / 6);
 
   &.drag-over {
     background: #333;
@@ -74,6 +86,7 @@ body {
   width: 50px;
   height: 50px;
   min-width: 50px;
+  border-bottom: 1px solid #444;
 
   display: flex;
   align-items: center;
@@ -145,4 +158,16 @@ body {
     opacity: 0.5;
     pointer-events: none;
   }
+}
+
+.floating-shadow-left {
+  box-shadow: 10px 0 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+.floating-shadow-right {
+  box-shadow: inset -10px 0 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+svg {
+  color: #fff;
 }
