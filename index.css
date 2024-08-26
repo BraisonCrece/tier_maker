@@ -1,0 +1,148 @@
+/* CSS Reset */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* CSS Variables */
+:root {
+  --s: #ff7f80;
+  --a: #ffbf80;
+  --b: #ffdf80;
+  --c: #ffff80;
+  --d: #80ff80;
+  --e: #80ffff;
+}
+
+/* Global Styles */
+body {
+  background: #111;
+  color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin: 0 auto;
+  max-width: 402px;
+  user-select: none;
+}
+
+/* Header */
+#top-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 2rem;
+
+  & img {
+    max-width: 150px;
+    height: auto;
+  }
+}
+
+.tier {
+  border: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  background: #222;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #444;
+  transition: background 0.1s ease;
+  overflow: scroll;
+
+  &.drag-over {
+    background: #333;
+  }
+}
+
+.label {
+  cursor: pointer;
+
+  background: var(--level, #222);
+  color: #000;
+  font-weight: bold;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & span:focus {
+    outline: 1px solid #fff;
+  }
+}
+
+#selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#selector-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  & button,
+  & label {
+    cursor: pointer;
+    transition: scale background 0.2s ease-in-out;
+    background: #333;
+    color: #fff;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      scale: 1.1;
+      background: #444;
+    }
+  }
+}
+
+#selector-items {
+  border: 1px solid #444;
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-wrap: wrap;
+
+  &.drag-files-over {
+    background: #333;
+    border-style: dashed;
+  }
+}
+
+.item-image {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border: 1px solid #444;
+  object-fit: cover;
+  cursor: grab;
+
+  &.drag-preview {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
