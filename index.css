@@ -47,6 +47,7 @@ body {
 }
 
 .tier {
+  position: relative;
   border: 1px solid #444;
   display: flex;
   background: #222;
@@ -152,6 +153,7 @@ body {
   background: #fff;
   border: 1px solid #444;
   object-fit: cover;
+  flex-shrink: 0;
   cursor: grab;
 
   &.drag-preview {
@@ -165,9 +167,17 @@ body {
 }
 
 .floating-shadow-right {
-  box-shadow: inset -10px 0 10px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: -5px 0px 15px 2px #000000;
 }
 
 svg {
   color: #fff;
+}
+
+#shadow-right {
+  position: absolute;
+  min-height: 100%;
+  right: 0;
+  width: 1px;
+  z-index: 100;
 }

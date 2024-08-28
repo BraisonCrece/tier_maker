@@ -7,19 +7,24 @@ const itemsSection = $("#selector-items")
 const resetButton = $("#reset")
 const headerColumn = $("#header-column")
 const tierBody = $(".rows")
+const shadowRightBox = $("#shadow-right")
+const rows = $$(".tier .row")
+
+const ITEMS_PER_ROW_BEFORE_SCROLL = 7
+const IMAGE_WIDTH = 50
 
 let draggedElement = null
 let sourceContainer = null
 
-const rows = $$(".tier .row")
+let defaultRowWidth = ITEMS_PER_ROW_BEFORE_SCROLL * IMAGE_WIDTH
 
 resetButton.addEventListener("click", reset)
-
 tierBody.addEventListener("scroll", applyScrolledShadow)
-
-imageInput.addEventListener("change", e => {
-  addImagesFromInput(e.target)
-})
+itemsSection.addEventListener("drop", handleDrop)
+itemsSection.addEventListener("drop", handleDropFromDesktop)
+itemsSection.addEventListener("dragover", handleDragOver)
+itemsSection.addEventListener("dragover", handleDragOverFromDesktop)
+itemsSection.addEventListener("dragleave", handleDragLeave)
 
 rows.forEach(row => {
   row.addEventListener("drop", handleDrop)
@@ -27,37 +32,37 @@ rows.forEach(row => {
   row.addEventListener("dragleave", handleDragLeave)
 })
 
-itemsSection.addEventListener("drop", handleDrop)
-itemsSection.addEventListener("dragover", handleDragOver)
-itemsSection.addEventListener("dragleave", handleDragLeave)
+imageInput.addEventListener("change", e => {
+  addImagesFromInput(e.target)
+})
 
-itemsSection.addEventListener("drop", handleDropFromDesktop)
-itemsSection.addEventListener("dragover", handleDragOverFromDesktop)
-
-function setRowsWidth(row) {
-  const numberOfImages = row.children.length
-  const width = `${numberOfImages * 50}px`
+function setRowsWidth(width) {
   rows.forEach(row => {
-    row.style.width = width
+    row.style.width = `${width}px`
   })
 }
 
-function srollToRight(element) {
-  element.scrollLeft = element.scrollWidth
-}
-
-function applyScrolledShadow() {
-  if (tierBody.scrollLeft > 0) {
-    headerColumn.classList.add("floating-shadow-left")
-    tierBody.classList.remove("floating-shadow-right")
-  } else {
-    headerColumn.classList.remove("floating-shadow-left")
-    tierBody.classList.add("floating-shadow-right")
-  }
+function removeShadows() {
+  headerColumn.classList.remove("floating-shadow-left")
+  shadowRightBox.classList.remove("floating-shadow-right")
 }
 
 function hasHorizontalOverflow(element) {
   return element.scrollWidth > element.clientWidth
+}
+
+function applyScrolledShadow() {
+  if (hasHorizontalOverflow(tierBody)) {
+    headerColumn.classList.toggle(
+      "floating-shadow-left",
+      tierBody.scrollLeft > 0
+    )
+
+    shadowRightBox.classList.toggle(
+      "floating-shadow-right",
+      tierBody.scrollLeft + tierBody.clientWidth < tierBody.scrollWidth
+    )
+  }
 }
 
 function reset() {
@@ -66,6 +71,8 @@ function reset() {
     item.remove()
     itemsSection.appendChild(item)
   })
+  setRowsWidth(defaultRowWidth)
+  removeShadows()
 }
 
 function addImagesFromInput(input) {
@@ -123,17 +130,28 @@ function handleDrop(e) {
   if (!draggedElement || !sourceContainer) return
 
   const src = dataTransfer.getData("text/plain")
-  currentTarget.appendChild(createItem(src))
+  const imageElement = createItem(src)
+
+  currentTarget.appendChild(imageElement)
   sourceContainer.removeChild(draggedElement)
   currentTarget.classList.remove("drag-over")
   removePreviewElemet(currentTarget)
 
-  if (currentTarget.children.length > 7 && currentTarget !== itemsSection) {
-    srollToRight(tierBody)
-    setRowsWidth(currentTarget)
-  } else {
-    tierBody.scrollLeft = 0
+  const largestRowWidth = getLargestRowWidth()
+
+  const currentMaxWidth = Math.max(largestRowWidth, defaultRowWidth)
+  setRowsWidth(currentMaxWidth)
+  imageElement.scrollIntoView({ behavior: "smooth", block: "nearest" })
+
+  if (!(largestRowWidth > defaultRowWidth)) {
+    removeShadows()
   }
+}
+
+function getLargestRowWidth() {
+  return Math.max(
+    ...Array.from(rows).map(row => row.children.length * IMAGE_WIDTH)
+  )
 }
 
 function handleDragOver(e) {
