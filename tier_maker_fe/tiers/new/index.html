@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../index.css" />
+    <script src="../../javascript/newTier.js" type="module" defer></script>
+    <title>Tier Maker</title>
+  </head>
+  <body>
+    <header id="top-header">
+      <img src="../../assets/TierMaker logo.png" alt="logo" id="logo" />
+    </header>
+    <h1>🏗️ Crea un nuevo Tierlist</h1>
+      <label for="name">Título del Tier</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Las mejores etapas históricas"
+        required />
+
+        <label>
+            <section id="selector-items"></section>
+            <input
+              type="file"
+              id="image-input"
+              type="file"
+              multiple
+              accept="image/*"
+              hidden />
+          </label>
+      <button id="save">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M8.7 10.7l6.6 -3.4" />
+          <path d="M8.7 13.3l6.6 3.4" />
+        </svg>
+        Obtener Tier link
+      </button>
+    <section id="selector-buttons">
+        <label>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+            <path d="M9 12h6" />
+            <path d="M12 9v6" />
+          </svg>
+          <input
+            type="file"
+            id="image-input"
+            type="file"
+            multiple
+            accept="image/*"
+            hidden />
+        </label>
+
+        <button id="reset">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M3.06 13a9 9 0 1 0 .49 -4.087" />
+            <path d="M3 4.001v5h5" />
+            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+          </svg>
+        </button>
+  </body>
+</html>
